@@ -10,14 +10,14 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeRepo employeeRepo;
+
     public EmployeeServiceImpl(EmployeeRepo employeeRepo) {
         this.employeeRepo = employeeRepo;
     }
 
     @Override
     public void saveEmployee(Employee employee) {
-        this.employeeRepo.save(employee);
-
+        employeeRepo.save(employee);
     }
 
     @Override
@@ -26,12 +26,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee getEmployee(int id) {
-        return employeeRepo.findById(id).get();
+    public Employee getEmployee(Long id) {
+        return employeeRepo.findById(id).orElseThrow(() -> new RuntimeException("Employee not found with id : " + id));
     }
 
     @Override
-    public void deleteEmployee(int id) {
+    public void deleteEmployee(Long id) {
         employeeRepo.deleteById(id);
     }
 
