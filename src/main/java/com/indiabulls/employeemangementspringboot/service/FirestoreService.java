@@ -31,7 +31,6 @@ import java.util.Map;
             firestore.collection("employee_logs")
                     .document()
                     .set(data);
-            System.out.println("Firestore log saved");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package com.indiabulls.employeemangementspringboot.repository.mysql;
+package com.indiabulls.employeemangementspringboot.repository;
 
 import com.indiabulls.employeemangementspringboot.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;

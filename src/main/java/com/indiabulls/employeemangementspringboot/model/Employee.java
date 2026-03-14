@@ -3,6 +3,8 @@ package com.indiabulls.employeemangementspringboot.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
@@ -30,10 +32,10 @@ public class Employee {
 
     @Column(name = "created_at", updatable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now().withNano(0);
+        this.createdAt = Timestamp.valueOf(LocalDateTime.now().withNano(0));
     }
 }
