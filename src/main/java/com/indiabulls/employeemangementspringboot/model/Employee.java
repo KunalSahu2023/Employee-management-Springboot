@@ -35,6 +35,5 @@ public class Employee {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now().withNano(0);
-        System.out.println("Created At: " + this.createdAt);
     }
 }

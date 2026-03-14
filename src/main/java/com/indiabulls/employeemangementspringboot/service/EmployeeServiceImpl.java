@@ -2,6 +2,7 @@ package com.indiabulls.employeemangementspringboot.service;
 
 import com.indiabulls.employeemangementspringboot.model.Employee;
 import com.indiabulls.employeemangementspringboot.repository.EmployeeRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,14 +11,25 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeRepo employeeRepo;
+    private FirestoreService firestoreService;
+    public EmployeeServiceImpl(EmployeeRepo employeeRepo,
+                               FirestoreService firestoreService){
 
-    public EmployeeServiceImpl(EmployeeRepo employeeRepo) {
-        this.employeeRepo = employeeRepo;
+        this.employeeRepo=employeeRepo;
+        this.firestoreService=firestoreService;
     }
 
     @Override
-    public void saveEmployee(Employee employee) {
-        employeeRepo.save(employee);
+    public Employee saveEmployee(Employee employee) {
+        Employee savedEmployee =
+                employeeRepo.save(employee);
+
+        firestoreService.saveLog(
+                savedEmployee.getId(),
+                savedEmployee.getFirstName(),
+                "CREATED"
+        );;
+        return savedEmployee;
     }
 
     @Override
@@ -32,11 +44,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployee(Long id) {
+
+        if(!employeeRepo.existsById(id)){
+            throw new RuntimeException("Employee not found");
+        }
         employeeRepo.deleteById(id);
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
-        employeeRepo.save(employee);
+    public Employee updateEmployee(Employee employee) {
+
+        Employee existingEmployee = employeeRepo.findById(employee.getId())
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        existingEmployee.setFirstName(employee.getFirstName());
+        existingEmployee.setLastName(employee.getLastName());
+        existingEmployee.setEmail(employee.getEmail());
+        existingEmployee.setDepartment(employee.getDepartment());
+        existingEmployee.setSalary(employee.getSalary());
+
+        return employeeRepo.save(existingEmployee);
     }
 }
