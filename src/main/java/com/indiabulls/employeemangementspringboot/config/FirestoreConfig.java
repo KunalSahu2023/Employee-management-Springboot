@@ -17,7 +17,7 @@ public class FirestoreConfig {
     public Firestore firestore() throws IOException {
 
         InputStream serviceAccount =
-                new FileInputStream("D:/Resources/Back End/Java");
+                new FileInputStream("D:/Resources/Back End/Java/secret-key.json");
 
 
         GoogleCredentials credentials =

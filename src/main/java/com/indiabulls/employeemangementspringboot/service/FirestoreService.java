@@ -1,5 +1,6 @@
 package com.indiabulls.employeemangementspringboot.service;
 
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.Firestore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,14 +26,16 @@ import java.util.Map;
             data.put("employeeId", id);
             data.put("name", name);
             data.put("action", action);
-            data.put("timestamp", LocalDateTime.now());
+            data.put("timestamp_firestore", Timestamp.now());
 
             firestore.collection("employee_logs")
                     .document()
                     .set(data);
+            System.out.println("Firestore log saved");
 
         } catch (Exception e) {
-            System.out.println("Firestore log failed");
+            e.printStackTrace();
+            System.out.println("Firestore log save failed");
         }
     }
 

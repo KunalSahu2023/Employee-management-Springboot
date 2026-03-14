@@ -1,8 +1,7 @@
 package com.indiabulls.employeemangementspringboot.service;
 
 import com.indiabulls.employeemangementspringboot.model.Employee;
-import com.indiabulls.employeemangementspringboot.repository.EmployeeRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.indiabulls.employeemangementspringboot.repository.mysql.EmployeeRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +20,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee saveEmployee(Employee employee) {
+
+        //mysql
         Employee savedEmployee =
                 employeeRepo.save(employee);
 
+        //firstore
         firestoreService.saveLog(
                 savedEmployee.getId(),
                 savedEmployee.getFirstName(),

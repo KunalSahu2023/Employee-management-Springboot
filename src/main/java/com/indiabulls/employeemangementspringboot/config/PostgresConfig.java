@@ -10,10 +10,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.indiabulls.employeemangementspringboot.repository.postgres",
-        entityManagerFactoryRef = "postgresEntityManager",
-        transactionManagerRef = "postgresTransactionManager"
-)
+        basePackages = "com.indiabulls.employeemangementspringboot.repository.postgres")
 public class PostgresConfig {
 
     @Bean
