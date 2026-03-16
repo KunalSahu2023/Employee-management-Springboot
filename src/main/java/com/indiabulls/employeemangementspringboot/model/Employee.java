@@ -1,5 +1,6 @@
 package com.indiabulls.employeemangementspringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,6 +30,11 @@ public class Employee {
 
     @Column(name = "salary")
     private Double salary;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="staff_id")
+    private Staff staff;
 
     @Column(name = "created_at", updatable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")

@@ -1,10 +1,12 @@
 package com.indiabulls.employeemangementspringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "staff")
@@ -29,7 +31,13 @@ public class Staff {
 
     private String role; // ADMIN, HR, MANAGER
 
-    private String status; // ACTIVE, DISABLED
+    private String status;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy="staff",
+            cascade=CascadeType.ALL,
+            fetch=FetchType.LAZY)
+    private List<Employee> employees;
 
     private Timestamp createdAt;
 

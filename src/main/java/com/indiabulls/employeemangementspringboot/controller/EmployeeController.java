@@ -2,7 +2,7 @@ package com.indiabulls.employeemangementspringboot.controller;
 
 import com.indiabulls.employeemangementspringboot.model.Employee;
 import com.indiabulls.employeemangementspringboot.service.EmployeeService;
-import com.indiabulls.employeemangementspringboot.service.EmployeeServiceImpl;
+import com.indiabulls.employeemangementspringboot.service.impl.EmployeeServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

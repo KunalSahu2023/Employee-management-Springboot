@@ -1,7 +1,10 @@
-package com.indiabulls.employeemangementspringboot.service;
+package com.indiabulls.employeemangementspringboot.service.impl;
 
 import com.indiabulls.employeemangementspringboot.model.Employee;
 import com.indiabulls.employeemangementspringboot.repository.EmployeeRepo;
+import com.indiabulls.employeemangementspringboot.service.EmployeeService;
+import com.indiabulls.employeemangementspringboot.service.FirestoreService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,8 +12,8 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeRepo employeeRepo;
-    private FirestoreService firestoreService;
+    private final EmployeeRepo employeeRepo;
+    private final FirestoreService firestoreService;
     public EmployeeServiceImpl(EmployeeRepo employeeRepo,
                                FirestoreService firestoreService){
 
@@ -18,20 +21,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.firestoreService=firestoreService;
     }
 
+    @Transactional
     @Override
     public Employee saveEmployee(Employee employee) {
 
-        //mysql
+        //PostgreSQL
         Employee savedEmployee =
                 employeeRepo.save(employee);
 
-
-        //firstore
+        //Firestore logging
         firestoreService.saveLog(
                 savedEmployee.getId(),
                 savedEmployee.getFirstName(),
                 "CREATED"
-        );;
+        );
         return savedEmployee;
     }
 
@@ -51,9 +54,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(!employeeRepo.existsById(id)){
             throw new RuntimeException("Employee not found");
         }
+
         employeeRepo.deleteById(id);
+
+        firestoreService.saveLog(
+                id,
+                "EMPLOYEE",
+                "DELETED"
+        );
     }
 
+    @Transactional
     @Override
     public Employee updateEmployee(Employee employee) {
 
@@ -66,6 +77,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         existingEmployee.setDepartment(employee.getDepartment());
         existingEmployee.setSalary(employee.getSalary());
 
-        return employeeRepo.save(existingEmployee);
+        Employee updated=employeeRepo.save(existingEmployee);
+        firestoreService.saveLog(
+                updated.getId(),
+                updated.getFirstName(),
+                "UPDATED"
+        );
+
+        return updated;
     }
 }
