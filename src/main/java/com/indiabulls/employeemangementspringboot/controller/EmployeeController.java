@@ -1,8 +1,8 @@
 package com.indiabulls.employeemangementspringboot.controller;
 
-import com.indiabulls.employeemangementspringboot.model.Employee;
+import com.indiabulls.employeemangementspringboot.dto.request.EmployeeRequestDTO;
+import com.indiabulls.employeemangementspringboot.dto.response.EmployeeResponseDTO;
 import com.indiabulls.employeemangementspringboot.service.EmployeeService;
-import com.indiabulls.employeemangementspringboot.service.impl.EmployeeServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,34 +12,43 @@ import java.util.List;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeServiceImpl employeeService) {
-        this.employeeService = employeeService;
+    public EmployeeController(EmployeeService employeeService){
+        this.employeeService=employeeService;
     }
 
     @PostMapping
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee){
-        return ResponseEntity.ok(employeeService.saveEmployee(employee));
+    public ResponseEntity<EmployeeResponseDTO>
+    createEmployee(@RequestBody EmployeeRequestDTO dto){
+
+        return ResponseEntity.ok(
+                employeeService.saveEmployee(dto));
     }
+
     @GetMapping
-    public List<Employee> getEmployees() {
+    public List<EmployeeResponseDTO> getEmployees(){
+
         return employeeService.getEmployees();
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployee(@PathVariable Long id) {
+    public EmployeeResponseDTO getEmployee(@PathVariable Long id){
+
         return employeeService.getEmployee(id);
     }
 
-    @PutMapping("{id}")
-    public void updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-        employee.setId(id);
-        employeeService.updateEmployee(employee);
+    @PutMapping("/{id}")
+    public EmployeeResponseDTO updateEmployee(
+            @PathVariable Long id,
+            @RequestBody EmployeeRequestDTO dto){
+
+        return employeeService.updateEmployee(id,dto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable Long id) {
+    public void deleteEmployee(@PathVariable Long id){
+
         employeeService.deleteEmployee(id);
     }
 }

@@ -1,14 +1,20 @@
 package com.indiabulls.employeemangementspringboot.service;
 
-import com.indiabulls.employeemangementspringboot.model.Employee;
+import com.indiabulls.employeemangementspringboot.dto.request.EmployeeRequestDTO;
+import com.indiabulls.employeemangementspringboot.dto.response.EmployeeResponseDTO;
 
 import java.util.List;
 
 public interface EmployeeService {
-    public Employee saveEmployee(Employee employee);
-    public List<Employee> getEmployees();
-    public Employee getEmployee(Long id);
-    public void deleteEmployee(Long id);
-    public Employee updateEmployee(Employee employee);
+
+    EmployeeResponseDTO saveEmployee(EmployeeRequestDTO dto);
+
+    List<EmployeeResponseDTO> getEmployees();
+
+    EmployeeResponseDTO getEmployee(Long id);
+
+    void deleteEmployee(Long id);
+
+    EmployeeResponseDTO updateEmployee(Long id,EmployeeRequestDTO dto);
 
 }

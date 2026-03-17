@@ -1,13 +1,16 @@
 package com.indiabulls.employeemangementspringboot.service;
 
-import com.indiabulls.employeemangementspringboot.model.Staff;
+import com.indiabulls.employeemangementspringboot.dto.request.StaffRequestDTO;
+import com.indiabulls.employeemangementspringboot.dto.response.StaffResponseDTO;
 
 import java.util.List;
 
 public interface StaffService {
-    Staff saveStaff(Staff staff);
-    Staff login(String username, String password);
 
-    List<Staff> getAllStaff();
+    StaffResponseDTO saveStaff(StaffRequestDTO dto);
+
+    StaffResponseDTO login(String username,String password);
+
+    List<StaffResponseDTO> getAllStaff();
 
 }

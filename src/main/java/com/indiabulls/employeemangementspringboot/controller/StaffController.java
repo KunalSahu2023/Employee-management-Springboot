@@ -1,6 +1,7 @@
 package com.indiabulls.employeemangementspringboot.controller;
 
-import com.indiabulls.employeemangementspringboot.model.Staff;
+import com.indiabulls.employeemangementspringboot.dto.request.StaffRequestDTO;
+import com.indiabulls.employeemangementspringboot.dto.response.StaffResponseDTO;
 import com.indiabulls.employeemangementspringboot.service.StaffService;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,31 +10,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/staff")
 public class StaffController {
-    private StaffService staffService;
+
+    private final StaffService staffService;
 
     public StaffController(StaffService staffService){
         this.staffService=staffService;
     }
 
     @PostMapping("/register")
-    public Staff register(@RequestBody Staff staff){
+    public StaffResponseDTO register(
+            @RequestBody StaffRequestDTO dto){
 
-        return staffService.saveStaff(staff);
+        return staffService.saveStaff(dto);
     }
 
     @PostMapping("/login")
-    public Staff login(@RequestBody Staff staff){
+    public StaffResponseDTO login(
+            @RequestBody StaffRequestDTO dto){
 
         return staffService.login(
-                staff.getUsername(),
-                staff.getPassword()
+                dto.getUsername(),
+                dto.getPassword()
         );
     }
 
     @GetMapping
-    public List<Staff> getAll(){
+    public List<StaffResponseDTO> getAll(){
 
         return staffService.getAllStaff();
     }
-
 }

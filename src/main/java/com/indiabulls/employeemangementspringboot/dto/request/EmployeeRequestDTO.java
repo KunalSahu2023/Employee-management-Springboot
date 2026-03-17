@@ -1,5 +1,6 @@
 package com.indiabulls.employeemangementspringboot.dto.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +19,6 @@ public class EmployeeRequestDTO {
 
     private Double salary;
 
+    @NotNull
     private Long staffId;
 }
